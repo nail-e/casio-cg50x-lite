@@ -1,5 +1,5 @@
-# pathfinding-lite
-Casio fx-CG50x-friendly Kruskals, Prim and k-NN algorithm calculators 
+# casio-cg50x-lite
+Casio fx-CG50x-friendly Python modules for extra calculations functions
 
 ### Changelog
 ---
