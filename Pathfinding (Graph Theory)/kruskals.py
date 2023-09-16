@@ -1,59 +1,64 @@
-class Kruskal():
-    def __init__(self):
-        self.matrix_width = 0
-        self.matrix_height = 0
-        self.matrix = None
+"""
+kruskal.py 
+v1.0.1
+nail_
+"""
 
-        self.mst_edges = []
-        self.mst_weight = 0
+def createMatrix():
+    matrix_width = int(input("Matrix Width: "))
+    matrix_height = int(input("Matrix Height: "))
+    matrix = [[0 for x in range(matrix_width)] for y in range(matrix_height)]
+    return matrix, matrix_width, matrix_height
 
-    def createMatrix(self):
-        self.matrix_width = int(input("Matrix Width: "))
-        self.matrix_height = int(input("Matrix Height: "))
-        self.matrix = [[0 for x in range(self.matrix_width)] for y in range(self.matrix_height)]
+def inputMatrix(matrix, matrix_width, matrix_height):
+    for i in range(0, matrix_height):
+        for j in range(0, matrix_width):
+            matrix[i][j] = int(input("Input for row {}, column {}: ".format(i, j)))
 
-    def inputMatrix(self):
-        for i in range(0, self.matrix_width):
-            for j in range(0, self.matrix_height):
-                self.matrix[j][i] = int(input(f"Input for row {j}, column {i}: " ))
-        
-        return self.matrix
+    return matrix
 
-    def kruskalSearch(self):
-        edges = []
+def kruskalSearch(matrix, matrix_width, matrix_height):
+    edges = []
 
-        for i in range(self.matrix_height):
-            for j in range(self.matrix_width):
-                if self.matrix[i][j] != 0:
-                    edges.append((i, j, self.matrix[i][j]))
+    for i in range(matrix_height):
+        for j in range(matrix_width):
+            if matrix[i][j] != 0:
+                edges.append((i, j, matrix[i][j]))
 
-        edges.sort(key=lambda edge: edge[2])  # Sort edges by weight
-        parent = [i for i in range(self.matrix_height)]
+    edges.sort(key=lambda edge: edge[2])  # Sort edges by weight
+    parent = [i for i in range(max(matrix_height, matrix_width))]
 
-        def find(u):
-            if parent[u] == u:
-                return u
-            return find(parent[u])
+    def find(u):
+        if parent[u] == u:
+            return u
+        return find(parent[u])
 
-        def union(u, v):
-            root_u = find(u)
-            root_v = find(v)
-            if root_u != root_v:
-                parent[root_u] = root_v
-                self.mst_weight += w
-                self.mst_edges.append((u, v, w))
+    def union(u, v):
+        nonlocal mst_weight
+        nonlocal mst_edges
 
-        for edge in edges:
-            u, v, w = edge
-            if find(u) != find(v):
-                union(u, v)
+        root_u = find(u)
+        root_v = find(v)
+        if root_u != root_v:
+            parent[root_u] = root_v
+            mst_weight += w
+            mst_edges.append((u, v, w))
 
-        non_zero_indices_str = [f"{chr(65 + u)}{chr(65 + v)}" for u, v, _ in self.mst_edges]
-        print(f"Edges in MST: {' '.join(non_zero_indices_str)}")
-        print(f"Total MST weight: {self.mst_weight}")
+    mst_edges = []
+    mst_weight = 0
+
+    for edge in edges:
+        u, v, w = edge
+        if find(u) != find(v):
+            union(u, v)
+
+    non_zero_indices_str = ['{}{}'.format(chr(65 + u), chr(65 + v)) for u, v, _ in mst_edges]
+    print("Edges in MST:", ' '.join(non_zero_indices_str))
+    print("Total MST weight:", mst_weight)
+
+matrix, matrix_width, matrix_height = createMatrix()
+matrix = inputMatrix(matrix, matrix_width, matrix_height)
+kruskalSearch(matrix, matrix_width, matrix_height)
 
 
-kruskal = Kruskal()
-kruskal.createMatrix()
-kruskal.inputMatrix()
-kruskal.kruskalSearch()
+
