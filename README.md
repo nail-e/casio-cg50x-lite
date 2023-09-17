@@ -8,3 +8,8 @@ Casio fx-CG50x-friendly Python modules for extra calculations functions
 
 0.0.2
 - Added Conversion.py v1.0.0
+
+0.0.3
+- Added SRCC-sort.py v1.0.0
+- Updated Kruskal.py v1.0.1
+- Updated Conversion.py v1.0.1
